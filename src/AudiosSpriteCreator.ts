@@ -22,7 +22,7 @@ class AudiosSpriteCreator {
 
   constructor(
     paths: Array<string>,
-    options: Options,
+    options: Partial<Options>,
   ) {
     this.files = [...paths];
     this.options = { ...defaultsOptions, ...options };

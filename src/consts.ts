@@ -11,25 +11,25 @@ type Logger = {
 }
 /* eslint-enable @typescript-eslint/ban-types */
 
-type Options = {
-  output?: string;
-  path?: string;
-  export?: Array<ExportFormat>;
-  format?: 'howler' | 'howler2' | 'createjs' | 'default';
-  autoplay?: string;
-  loop?: Array<string>;
-  silence?: number;
-  gap?: number;
-  minlength?: number;
-  bitrate?: number;
-  vbr?: number;
-  'vbr:vorbis'?: number;
-  samplerate?: number;
-  channels?: 1 | 2;
-  rawparts?: string;
-  ignorerounding?: 0 | 1;
-  logger?: Logger,
-};
+interface Options {
+  output: string;
+  path: string;
+  export: Array<ExportFormat>;
+  format: 'howler' | 'howler2' | 'createjs' | 'default';
+  autoplay: string;
+  loop: Array<string>;
+  silence: number;
+  gap: number;
+  minlength: number;
+  bitrate: number;
+  vbr: number;
+  'vbr:vorbis': number;
+  samplerate: number;
+  channels: 1 | 2;
+  rawparts: string;
+  ignorerounding: 0 | 1;
+  logger: Logger,
+}
 
 // output
 
