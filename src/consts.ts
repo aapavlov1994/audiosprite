@@ -1,7 +1,8 @@
 // input
 // others
-type ExportFormat = 'aiff'| 'wav'| 'ac3'| 'mp3'| 'mp4'| 'm4a'| 'ogg'| 'opus'| 'webm';
-type Export = Partial<Record<ExportFormat, (string | number)[]>>
+type AudioFormat = 'aiff'| 'wav'| 'ac3'| 'mp3'| 'mp4'| 'm4a'| 'ogg'| 'opus'| 'webm';
+type AudioFormatOptions = string[]
+type Export = Record<AudioFormat, AudioFormatOptions>
 
 /* eslint-disable @typescript-eslint/ban-types */
 type Logger = {
@@ -11,10 +12,10 @@ type Logger = {
 }
 /* eslint-enable @typescript-eslint/ban-types */
 
-interface Options {
-  output: string;
+type Options = {
+  output: string; /** @param output Name for the output files */
   path: string;
-  export: Array<ExportFormat>;
+  export: Array<AudioFormat>;
   format: 'howler' | 'howler2' | 'createjs' | 'default';
   autoplay: string;
   loop: Array<string>;
@@ -26,7 +27,7 @@ interface Options {
   'vbr:vorbis': number;
   samplerate: number;
   channels: 1 | 2;
-  rawparts: string;
+  rawparts: Array<AudioFormat>;
   ignorerounding: 0 | 1;
   logger: Logger,
 }
@@ -69,15 +70,16 @@ export type {
   HowlerSprite,
   CreateJSSprite,
   Export,
-  ExportFormat,
+  AudioFormat,
+  AudioFormatOptions,
 };
 
 const defaultsOptions: Options = {
   output: 'output',
   path: '',
   export: ['ogg','m4a','mp3','ac3'],
-  format: null,
-  autoplay: null,
+  format: 'default',
+  autoplay: '',
   loop: [],
   silence: 0,
   gap: 1,
@@ -87,7 +89,7 @@ const defaultsOptions: Options = {
   'vbr:vorbis': -1,
   samplerate: 44100,
   channels: 1,
-  rawparts: '',
+  rawparts: [],
   ignorerounding: 0,
   logger: {
     debug() {

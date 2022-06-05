@@ -1,6 +1,6 @@
 import type {
   Options,
-  DefaultOutput, Export, HowlerOutput, Howler2Output, CreateJSOutput, HowlerSprite, CreateJSSprite,
+  DefaultOutput, Export, HowlerOutput, Howler2Output, CreateJSOutput, HowlerSprite, CreateJSSprite, AudioFormat, AudioFormatOptions,
 } from './consts';
 import defaultsOptions from './consts';
 import path from 'path';
@@ -10,7 +10,8 @@ import {
   spawn, ChildProcessWithoutNullStreams,
 } from 'child_process';
 import os from 'os';
-import { getExportFormatsOptions, getPromisesChain } from './utils';
+import { getExportFormatsOptions, getPromisesChain, getChosenAudioOptions } from './utils';
+
 
 class AudiosSpriteCreator {
   files: Array<string>;
@@ -18,14 +19,15 @@ class AudiosSpriteCreator {
   offsetCursor: number;
   json: DefaultOutput;
   rootTemp: string;
-  formats: Export;
+  formats: Partial<Export>;
 
   constructor(
     paths: Array<string>,
     options: Partial<Options>,
-  ) {
+  ) { 
     this.files = [...paths];
-    this.options = { ...defaultsOptions, ...options };
+    this.options = { ...defaultsOptions, ...options };   
+    this.rootTemp = this.makeTemp();
     this.formats = getExportFormatsOptions(this.options);
     this.offsetCursor = 0;
     this.json = {
@@ -98,7 +100,6 @@ class AudiosSpriteCreator {
   }
 
   prepare(): Promise<void> {
-    this.rootTemp = this.makeTemp();
     const { silence, autoplay } = this.options;
 
     if (!silence) return Promise.resolve();
@@ -197,7 +198,7 @@ class AudiosSpriteCreator {
     });
   }
 
-  exportFile(src: string, dest: string, ext: string, opt: string[], store: boolean): Promise<void> {
+  exportFile(src: string, dest: string, ext: AudioFormat, opt: AudioFormatOptions, store: boolean): Promise<void> {
     const outfile = `${dest}.${ext}`;
 
     return new Promise((resolve, reject) => {
@@ -235,9 +236,8 @@ class AudiosSpriteCreator {
     const exportPath = `${this.options.output}_${index}`;
     return getPromisesChain(
       ...this.options.rawparts
-        .split(',')
-        .map((ext) => (
-          () => this.exportFile(temp, exportPath, ext, this.formats[ext], false)
+        .map((ext: AudioFormat) => (
+          () => this.exportFile(temp, exportPath, ext, getChosenAudioOptions(this.options, ext), false)
         ))
       )
       .then(() => {
@@ -258,8 +258,8 @@ class AudiosSpriteCreator {
   }
 
   exportFiles(): Promise<void> {
-    const promiseFunctions = Object.keys(this.formats)
-      .map((key) => (() => this.exportFile(this.rootTemp, this.options.output, key, this.formats[key], true)));
+    const promiseFunctions = (Object.keys(this.formats) as (keyof typeof this.formats)[])
+      .map((key) => (() => this.exportFile(this.rootTemp, this.options.output, key, this.formats[key]||[], true)));
     return getPromisesChain(...promiseFunctions);
   }
 
@@ -272,7 +272,7 @@ class AudiosSpriteCreator {
     const { format } = this.options;
 
     if (format === 'createjs') {
-      const audioSprite = [];
+      const audioSprite: CreateJSSprite[] = [];
       Object.keys(this.json.spritemap).forEach((key) => {
         const spriteInfo = this.json.spritemap[key];
         const audiospriteInstance: CreateJSSprite = {

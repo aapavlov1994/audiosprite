@@ -36,7 +36,7 @@ const minimistConfig = {
     'vbr:vorbis': -1, //  'qscale [0-10 is highest quality]. Works for: webm. -1 disables qscale.'
     samplerate: 44100, //  'Sample rate.'
     channels: 1, //  'Number of channels (1=mono, 2=stereo).'
-    rawparts: '', //  'Include raw slices(for Web Audio API) in specified formats.'
+    rawparts: [], //  'Include raw slices(for Web Audio API) in specified formats.'
     ignorerounding: 0, //  'Bypass sound placement on whole second boundaries (0=round,1=bypass).'
   },
 };

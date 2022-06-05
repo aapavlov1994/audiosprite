@@ -1,9 +1,9 @@
 import type { Options, DefaultOutput, HowlerOutput, Howler2Output, CreateJSOutput } from './consts';
 import AudiosSpriteCreator from './AudiosSpriteCreator';
 
-function createSprite(
+export function createSprite(
   paths: Array<string>,
-  options: Options,
+  options: Partial<Options>,
 ): Promise<DefaultOutput | HowlerOutput | Howler2Output | CreateJSOutput> {
     const creator = new AudiosSpriteCreator(paths, options);
     return creator.checkFiles()
@@ -14,5 +14,3 @@ function createSprite(
         .then(() => creator.exportFiles())
         .then(() => creator.exportJson());
 }
-
-module.exports = createSprite;

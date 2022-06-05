@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const winston = require('winston');
-const audiosprite = require('../build/index');
+const { createSprite } = require('../build');
 const argv = require('./getArgs');
 
 const opts = { ...argv };
@@ -19,6 +18,7 @@ winston.debug('Parsed arguments', argv);
 opts.logger = winston;
 
 opts.bitrate = parseInt(argv.bitrate, 10);
+opts.rawparts = JSON.parse(argv.rawparts);
 opts.samplerate = parseInt(argv.samplerate, 10);
 opts.channels = parseInt(argv.channels, 10);
 opts.gap = parseFloat(argv.gap);
@@ -38,7 +38,7 @@ if (argv.help || !files.length) {
   process.exit(1);
 }
 
-audiosprite(files, opts)
+createSprite(files, opts)
   .then(
     (obj) => {
       console.log(obj);

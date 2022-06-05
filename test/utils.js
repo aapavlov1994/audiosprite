@@ -93,7 +93,7 @@ function scriptSpawnTemplate(...soundsPaths) {
   return spawn(
     'node',
     [AUDIOSPRITE_PATH,
-      '--rawparts=mp3',
+      '--rawparts=["mp3"]',
       '-o',
       OUTPUT,
       '-l',
