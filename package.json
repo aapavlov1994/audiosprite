@@ -1,5 +1,7 @@
 {
   "name": "audiosprite-breezy",
+  "version": "2.0.0",
+  "author": "Anton Pavlov <aapavlov1994@gmail.com>",
   "description": "Concat small audio files into single file and export in many formats.",
   "keywords": [
     "audio",
@@ -10,8 +12,6 @@
     "howler",
     "howler2"
   ],
-  "author": "Anton Pavlov <aapavlov1994@gmail.com>",
-  "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
