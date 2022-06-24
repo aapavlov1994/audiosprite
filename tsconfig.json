@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "es6",
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "declaration": true,
+    "removeComments": false,
+    "lib": [
+      "es6", "dom", "dom.iterable"
+    ],
+    "outDir": "build"
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "test"
+  ]
+}

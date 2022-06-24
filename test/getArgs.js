@@ -23,9 +23,8 @@ const minimistConfig = {
   default: {
     output: 'output', //  'Name for the output files.'
     path: '', //  'Path for files to be used on final JSON.'
-    export: 'ogg,m4a,mp3,ac3', //  'Limit exported file types. Comma separated extension list.'
-    format: 'jukebox', //  'Format of the output JSON file (jukebox, howler, howler2, createjs).'
-    log: 'info', //  'Log level (debug, info, notice, warning, error).'
+    export: ['ogg', 'm4a', 'mp3', 'ac3'], //  'Limit exported file types. Comma separated extension list.'
+    format: 'default', //  'Format of the output JSON file (default, howler, howler2, createjs).'
     autoplay: null, //  'Autoplay sprite name.'
     loop: null, //  'Loop sprite name, can be passed multiple times.'
     silence: 0, //  'Add special "silence" track with specified duration.'
@@ -36,7 +35,7 @@ const minimistConfig = {
     'vbr:vorbis': -1, //  'qscale [0-10 is highest quality]. Works for: webm. -1 disables qscale.'
     samplerate: 44100, //  'Sample rate.'
     channels: 1, //  'Number of channels (1=mono, 2=stereo).'
-    rawparts: '', //  'Include raw slices(for Web Audio API) in specified formats.'
+    rawparts: [], //  'Include raw slices(for Web Audio API) in specified formats.'
     ignorerounding: 0, //  'Bypass sound placement on whole second boundaries (0=round,1=bypass).'
   },
 };

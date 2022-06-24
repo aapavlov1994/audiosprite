@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const winston = require('winston');
-const audiosprite = require('./index');
+const { createSprite } = require('../build');
 const argv = require('./getArgs');
 
 const opts = { ...argv };
@@ -19,6 +18,7 @@ winston.debug('Parsed arguments', argv);
 opts.logger = winston;
 
 opts.bitrate = parseInt(argv.bitrate, 10);
+opts.rawparts = JSON.parse(argv.rawparts);
 opts.samplerate = parseInt(argv.samplerate, 10);
 opts.channels = parseInt(argv.channels, 10);
 opts.gap = parseFloat(argv.gap);
@@ -38,13 +38,17 @@ if (argv.help || !files.length) {
   process.exit(1);
 }
 
-audiosprite(files, opts, (err, obj) => {
-  if (err) {
-    winston.error(err);
-    process.exit(0);
-  }
-  const jsonfile = `${opts.output}.json`;
-  fs.writeFileSync(jsonfile, JSON.stringify(obj, null, 2));
-  winston.info('Exported json OK', { file: jsonfile });
-  winston.info('All done');
-});
+createSprite(files, opts)
+  .then(
+    (obj) => {
+      console.log(obj);
+      const jsonfile = `${opts.output}.json`;
+      fs.writeFileSync(jsonfile, JSON.stringify(obj, null, 2));
+      winston.info('Exported json OK', { file: jsonfile });
+      winston.info('All done');
+    },
+    (err) => {
+      winston.error(err);
+      process.exit(0);
+    },
+  );
