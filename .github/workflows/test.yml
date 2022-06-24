@@ -18,9 +18,9 @@ jobs:
       - run: npm run build
       - run: npm run lint
       - run: |
-            wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-            tar xvf ffmpeg-release-amd64-static.tar.xz
-            mv ffmpeg-*.*.*-amd64-static ffmpeg
+            wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
+            tar xvf ffmpeg-git-amd64-static.tar.xz
+            mv ffmpeg-*-*-amd64-static ffmpeg
             export PATH=$PATH:$PWD/ffmpeg
             ffmpeg -version
             npm run test
