@@ -7,12 +7,12 @@ npm install audiosprite-breezy
 ```
 
 ```js
-var audiosprite = require('audiosprite-breezy')
+const { createSprite } = require('audiosprite-breezy')
 
-var files = ['file1.mp3', 'file2.mp3']
-var options = { output: 'result', export: ['mp3'] }
+const files = ['file1.mp3', 'file2.mp3']
+const options = { output: 'result', export: ['mp3'] }
 
-audiosprite(files, options)
+createSprite(files, options)
   .then((result) => console.log(result))
   .catch((err) => console.log(err));
 ```
